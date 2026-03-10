@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMEGA AI - Next Gen Assistant</title>
     <style>
-        /* Omega Black & Blue Futuristic Theme */
+        /* Omega Black & Blue Theme */
         
         body {
             background: #000000;
             color: #00d2ff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -24,23 +24,22 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 85px;
-            height: 85px;
+            width: 80px;
+            height: 80px;
             border: 2px solid #00d2ff;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 15px #00d2ff, inset 0 0 10px #00d2ff;
+            box-shadow: 0 0 15px #00d2ff;
             background: #000;
             z-index: 1000;
-            transition: 0.3s;
         }
         
         .eyes {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
         
         .eye {
@@ -53,50 +52,35 @@
         }
         
         .mouth {
-            width: 32px;
+            width: 30px;
             height: 4px;
             background: #00d2ff;
             margin-top: 15px;
             border-radius: 5px;
             transition: 0.3s;
-            box-shadow: 0 0 5px #00d2ff;
         }
-        /* Avatar States */
+        /* Avatar Emotions */
         
         .thinking .eye {
             transform: scaleY(0.1);
         }
         
         .talking .mouth {
-            height: 16px;
+            height: 12px;
             border-radius: 50%;
         }
-        
-        .error-state {
-            border-color: #ff0044 !important;
-            box-shadow: 0 0 15px #ff0044 !important;
-        }
-        
-        .error-state .eye,
-        .error-state .mouth {
-            background: #ff0044 !important;
-            box-shadow: 0 0 8px #ff0044 !important;
-        }
-        /* Chat Layout */
         
         header {
             padding: 15px;
             background: #080808;
             border-bottom: 1px solid #1a1a1a;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
         
         header h1 {
             margin: 0;
-            font-size: 20px;
-            letter-spacing: 4px;
-            font-weight: 300;
+            font-size: 22px;
+            letter-spacing: 3px;
             text-shadow: 0 0 10px #00d2ff;
         }
         
@@ -107,84 +91,64 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            scroll-behavior: smooth;
+            background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
         }
         
         .msg {
-            max-width: 85%;
-            padding: 14px;
+            max-width: 80%;
+            padding: 12px;
             border-radius: 12px;
             font-size: 15px;
-            line-height: 1.6;
-            word-wrap: break-word;
+            line-height: 1.4;
         }
         
         .user-msg {
-            background: #002b4d;
+            background: #003366;
             align-self: flex-end;
+            color: white;
             border-bottom-right-radius: 2px;
-            border: 1px solid #0056b3;
         }
         
         .ai-msg {
-            background: #0a0a0a;
+            background: #111;
             border: 1px solid #00d2ff;
             align-self: flex-start;
             border-bottom-left-radius: 2px;
         }
-        /* Input Bar */
         
         .input-box {
             display: flex;
             padding: 20px;
             background: #050505;
             gap: 10px;
-            border-top: 1px solid #1a1a1a;
+            border-top: 1px solid #222;
         }
         
         input {
             flex: 1;
             background: #111;
-            border: 1px solid #333;
-            color: #00d2ff;
-            padding: 12px 20px;
+            border: 1px solid #00d2ff;
+            color: #fff;
+            padding: 12px;
             border-radius: 25px;
             outline: none;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-        
-        input:focus {
-            border-color: #00d2ff;
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
         }
         
         button {
             background: #00d2ff;
             color: #000;
             border: none;
-            padding: 0 25px;
+            padding: 10px 25px;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            text-transform: uppercase;
-            transition: 0.3s;
         }
         
-        button:hover {
-            background: #fff;
-            box-shadow: 0 0 20px #fff;
-            transform: scale(1.05);
-        }
-        /* Scrollbar */
-        
-        #chat-area::-webkit-scrollbar {
-            width: 5px;
-        }
-        
-        #chat-area::-webkit-scrollbar-thumb {
-            background: #111;
+        img {
+            width: 100%;
             border-radius: 10px;
+            margin-top: 10px;
+            border: 1px solid #00d2ff;
         }
     </style>
 </head>
@@ -192,7 +156,7 @@
 <body>
 
     <header>
-        <h1>OMEGA CORE</h1>
+        <h1>OMEGA AI</h1>
     </header>
 
     <div id="omega-avatar">
@@ -204,36 +168,13 @@
     </div>
 
     <div id="chat-area">
-        <div class="msg ai-msg">Online. I am <b>OMEGA</b>. System stabilized. <br><br>• Type anything to chat.<br>• Use <b>/image [prompt]</b> for visuals.</div>
+        <div class="msg ai-msg">System Online. I am <b>OMEGA</b>. Ready to assist.</div>
     </div>
 
     <div class="input-box">
-        <input type="text" id="userInput" placeholder="Initiate command..." autocomplete="off">
-        <button onclick="send()">Send</button>
+        <input type="text" id="userInput" placeholder="Type command..." autocomplete="off">
+        <button onclick="send()">SEND</button>
     </div>
 
     <script>
-        const chatArea = document.getElementById('chat-area');
-        const avatar = document.getElementById('omega-avatar');
-        const inputField = document.getElementById('userInput');
-
-        async function send() {
-            const text = inputField.value.trim();
-            if (!text) return;
-
-            addMsg(text, 'user-msg');
-            inputField.value = "";
-            setEmotion('thinking');
-
-            if (text.toLowerCase().startsWith('/image')) {
-                const prompt = text.replace('/image', '').trim();
-                if (!prompt) {
-                    addMsg("Please provide a prompt for the image.", 'ai-msg');
-                    return;
-                }
-                const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&nologo=true`;
-                addMsg(`Omega is generating: <i>${prompt}</i>...<br><img src="${imgUrl}" style="width:100%; border-radius:10px; margin-top:10px; border: 1px solid #00d2ff;" onload="setEmotion('')">`, 'ai-msg');
-            } else {
-                try {
-                    // Pollinations Text API with System Prompt
-                    const
+        const chatArea = document.getElementById('chat-area
