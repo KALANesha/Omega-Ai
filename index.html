@@ -1,133 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>OMEGA AI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMEGA AI - Eshan Creative Studio</title>
     <style>
+        /* Black & Blue Theme */
+        
         body {
-            background: #000;
+            background: #000000;
             color: #00d2ff;
             font-family: 'Segoe UI', sans-serif;
+            margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            margin: 0;
+            overflow: hidden;
+        }
+        /* OMEGA Face UI */
+        
+        #omega-face {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #00d2ff;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px #00d2ff;
+            background: #050505;
+            transition: 0.3s;
         }
         
-        #chat {
+        .eyes {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .eye {
+            width: 15px;
+            height: 15px;
+            background: #00d2ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00d2ff;
+            transition: 0.2s;
+        }
+        
+        .mouth {
+            width: 40px;
+            height: 5px;
+            background: #00d2ff;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 8px #00d2ff;
+            transition: 0.3s;
+        }
+        /* Animations */
+        
+        .thinking .eye {
+            transform: scaleY(0.1);
+        }
+        
+        .talking .mouth {
+            height: 15px;
+            border-radius: 50%;
+        }
+        
+        header {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #111;
+        }
+        
+        header h1 {
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin: 0;
+            text-shadow: 0 0 10px #00d2ff;
+        }
+        
+        #chat-box {
             flex: 1;
             overflow-y: auto;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
         }
         
         .msg {
-            padding: 12px;
-            border-radius: 15px;
             max-width: 80%;
-            line-height: 1.5;
+            padding: 12px 18px;
+            border-radius: 15px;
             font-size: 15px;
+            line-height: 1.5;
         }
         
-        .user {
-            background: #003366;
+        .user-msg {
+            background: #002244;
             align-self: flex-end;
-            border: 1px solid #0055ff;
+            border: 1px solid #004488;
         }
         
-        .ai {
-            background: #111;
+        .ai-msg {
+            background: #0a0a0a;
             border: 1px solid #00d2ff;
             align-self: flex-start;
         }
         
         .input-area {
-            padding: 20px;
             display: flex;
-            background: #080808;
+            padding: 20px;
+            background: #050505;
             gap: 10px;
             border-top: 1px solid #222;
         }
         
         input {
             flex: 1;
-            padding: 12px;
-            border-radius: 25px;
-            border: 1px solid #00d2ff;
             background: #111;
+            border: 1px solid #00d2ff;
             color: #fff;
+            padding: 12px 20px;
+            border-radius: 30px;
             outline: none;
         }
         
         button {
-            padding: 10px 25px;
-            border-radius: 25px;
             background: #00d2ff;
+            color: #000;
             border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
-        }
-        
-        button:hover {
-            background: #fff;
-            box-shadow: 0 0 10px #fff;
         }
     </style>
 </head>
 
 <body>
 
-    <div id="chat">
-        <div class="msg ai"><b>OMEGA:</b> System Stabilized. How can I assist you today?</div>
+    <header>
+        <h1>OMEGA CORE</h1>
+    </header>
+
+    <div id="omega-face">
+        <div class="eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <div id="chat-box">
+        <div class="msg ai-msg"><b>OMEGA:</b> Online and ready. System is stabilized. How can I help you today?</div>
     </div>
 
     <div class="input-area">
-        <input type="text" id="userInput" placeholder="Ask Omega something...">
+        <input type="text" id="userInput" placeholder="Give a command to Omega...">
         <button onclick="askOmega()">SEND</button>
     </div>
 
     <script>
+        const chatBox = document.getElementById('chat-box');
+        const face = document.getElementById('omega-face');
+
         async function askOmega() {
             const input = document.getElementById('userInput');
-            const chat = document.getElementById('chat');
             const text = input.value.trim();
 
             if (!text) return;
 
-            // User message පෙන්වීම
-            const userDiv = document.createElement('div');
-            userDiv.className = 'msg user';
-            userDiv.innerText = text;
-            chat.appendChild(userDiv);
+            // User Message
+            addMessage(text, 'user-msg');
             input.value = "";
-            chat.scrollTop = chat.scrollHeight;
+            face.className = "thinking";
 
             try {
-                // අපි මේ පාර වෙනස්ම API එකක් පාවිච්චි කරනවා
-                const response = await fetch(`https://api.duckduckgo.com/api/?q=${encodeURIComponent(text)}&format=json`);
+                // වඩාත් විශ්වාසවන්ත DuckDuckGo AI Proxy එකක් පාවිච්චි කරමු
+                const response = await fetch(`https://api.duckduckgo.com/api/?q=${encodeURIComponent(text)}&format=json&no_html=1&skip_disambig=1`);
                 const data = await response.json();
 
-                let aiText = data.AbstractText || "I'm processing that. Could you be more specific?";
+                let reply = data.AbstractText || "I am analyzing the data. Could you please provide more details?";
 
-                const aiDiv = document.createElement('div');
-                aiDiv.className = 'msg ai';
-                aiDiv.innerHTML = "<b>OMEGA:</b> " + aiText;
-                chat.appendChild(aiDiv);
-                chat.scrollTop = chat.scrollHeight;
+                // Backup - JSON එකේ දත්ත නැතිනම් පොදු පිළිතුරක්
+                if (reply.length < 5) reply = "Omega Core: Input received. I am processing your request through Eshan Creative Studio servers.";
+
+                addMessage("<b>OMEGA:</b> " + reply, 'ai-msg');
+                animateTalk();
 
             } catch (e) {
-                // පරණ API එකත් backup එකක් විදියට තියමු
-                const aiDiv = document.createElement('div');
-                aiDiv.className = 'msg ai';
-                aiDiv.innerText = "OMEGA: Connection Reset. Please check your internet or try a different question.";
-                chat.appendChild(aiDiv);
+                addMessage("<b>OMEGA:</b> Connection reset by host. Reconnecting to local core...", 'ai-msg');
+                face.className = "";
             }
         }
 
-        document.getElementById('userInput').addEventListener('keypress', function(e) {
+        function addMessage(content, type) {
+            const div = document.createElement('div');
+            div.className = `msg ${type}`;
+            div.innerHTML = content;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function animateTalk() {
+            face.className = "talking";
+            setTimeout(() => {
+                face.className = "";
+            }, 2000);
+        }
+
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') askOmega();
         });
     </script>
